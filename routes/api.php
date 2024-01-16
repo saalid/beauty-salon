@@ -8,6 +8,7 @@ use App\Filament\Resources\TeacherResource\Api\TeacherApiService;
 //use App\Filament\Resources\UserResource\Api\UserApiService;
 use App\Filament\Resources\UserResource\Api\UserApiService;
 use \Kavenegar as kv;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,21 @@ UserApiService::routes();
 CategoryApiService::routes();
 ProductApiService::routes();
 TeacherApiService::routes();
+
+Route::controller(AuthController::class)->group(function () {
+
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+
+})->middleware('auth:api');
+
+Route::controller(AuthController::class)->group(function () {
+
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+
+})->middleware('guest');
+
 
 Route::get('/test-sms', function (Request $request)
 {
