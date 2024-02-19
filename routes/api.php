@@ -43,11 +43,11 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('/test-sms', function (Request $request)
 {
     try{
-        $sender = "10008663";		//This is the Sender number
+        $sender = "0018018949161";		//This is the Sender number
 
         $message = "خدمات پیام کوتاه کاوه نگار";		//The body of SMS
 
-        $receptor = array("09054476441");			//Receptors numbers
+        $receptor = array("09387789518");			//Receptors numbers
 
         $result = kv::Send($sender,$receptor,$message);
         if($result){
