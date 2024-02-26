@@ -43,13 +43,16 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('/test-sms', function (Request $request)
 {
     try{
-        $sender = "0018018949161";		//This is the Sender number
 
-        $message = "خدمات پیام کوتاه کاوه نگار";		//The body of SMS
+        $receptor = "09397316601";
+        $token = "123";
+        $token2 = null;
+        $token3 = null;
+        $template="verify";
+        //Send null for tokens not defined in the template
+        //Pass token10 and token20 as parameter 6th and 7th
+        $result = kv::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
 
-        $receptor = array("09387789518");			//Receptors numbers
-
-        $result = kv::Send($sender,$receptor,$message);
         if($result){
             foreach($result as $r){
                 echo "messageid = $r->messageid";
@@ -70,10 +73,7 @@ Route::get('/test-sms', function (Request $request)
     catch(\Kavenegar\Exceptions\HttpException $e){
         // در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد
         echo $e->errorMessage();
-    }catch(\Exceptions $ex){
-        // در صورت بروز خطایی دیگر
-        echo $ex->getMessage();
-}
+    }
 
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
