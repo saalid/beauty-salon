@@ -2,49 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Services\Kavenegar;
 
 class AuthController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth:api', ['except' => ['login','register']]);
-//    }
+    private $kavenegar;
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->kavenegar = new Kavenegar();
+    }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'phone' => 'required|string',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('email', 'password');
-
+        $credentials = $request->only('phone', 'password');
         $token = Auth::attempt($credentials);
+        $this->kavenegar->sendOtp($request->phone, rand(11111, 99999));
+        
+
         if (!$token) {
             return response()->json([
-                'status' => 'error',
                 'message' => 'Unauthorized',
             ], 401);
         }
 
         $user = Auth::user();
         return response()->json([
-            'status' => 'success',
             'user' => $user,
-            'authorisation' => [
+            'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
             ]
         ]);
-
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
+            'phone' => 'required|string|min:11',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
@@ -52,18 +58,13 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
-        $token = Auth::login($user);
         return response()->json([
-            'status' => 'success',
             'message' => 'User created successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
+            'user' => $user
         ]);
     }
 
@@ -71,7 +72,6 @@ class AuthController extends Controller
     {
         Auth::logout();
         return response()->json([
-            'status' => 'success',
             'message' => 'Successfully logged out',
         ]);
     }
@@ -79,7 +79,6 @@ class AuthController extends Controller
     public function refresh()
     {
         return response()->json([
-            'status' => 'success',
             'user' => Auth::user(),
             'authorisation' => [
                 'token' => Auth::refresh(),

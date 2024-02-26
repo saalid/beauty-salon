@@ -29,16 +29,10 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-
-})->middleware('auth:api');
-
-Route::controller(AuthController::class)->group(function () {
-
     Route::post('login', 'login');
     Route::post('register', 'register');
 
-})->middleware('guest');
-
+});
 
 Route::get('/test-sms', function (Request $request)
 {
