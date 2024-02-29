@@ -30,6 +30,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
     Route::post('login', 'login');
+    Route::post('loginVerify', 'loginVerify');
+    Route::get('getUser', 'getUser');
     Route::post('register', 'register');
 
 });
