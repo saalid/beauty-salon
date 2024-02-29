@@ -17,6 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/unauthorized', function () {
+    return response()->json([
+        'error' => 401,
+        'message' => 'un Authorized'
+    ]);
+})->name('unauthorized');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
