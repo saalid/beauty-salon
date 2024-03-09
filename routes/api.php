@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Filament\Resources\CategoryResource\Api\CategoryApiService;
 use App\Filament\Resources\ProductResource\Api\ProductApiService;
 use App\Filament\Resources\TeacherResource\Api\TeacherApiService;
-//use App\Filament\Resources\UserResource\Api\UserApiService;
-use App\Filament\Resources\UserResource\Api\UserApiService;
+use App\Filament\Resources\CartResource\Api\CartApiService;
 use \Kavenegar as kv;
 use App\Http\Controllers\AuthController;
 
@@ -20,10 +19,11 @@ use App\Http\Controllers\AuthController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-UserApiService::routes();
+//UserApiService::routes();
 CategoryApiService::routes();
 ProductApiService::routes();
 TeacherApiService::routes();
+CartApiService::routes();
 
 Route::controller(AuthController::class)->group(function () {
 
