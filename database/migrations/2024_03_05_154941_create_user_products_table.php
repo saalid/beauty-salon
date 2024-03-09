@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('user_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('price')->nullable();
+            $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('status')->nullable();
-            $table->string('state')->nullable();
-            $table->string('state_code')->nullable();
-            $table->string('ref_num')->nullable();
-            $table->string('cid')->nullable();
-            $table->string('trace_no')->nullable();
-            $table->string('rrn')->nullable();
-            $table->string('secure_pan')->nullable();
+            $table->string('link_spot_player')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('user_products');
     }
 };
