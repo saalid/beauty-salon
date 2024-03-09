@@ -8,6 +8,7 @@ use App\Filament\Resources\TeacherResource\Api\TeacherApiService;
 use App\Filament\Resources\CartResource\Api\CartApiService;
 use \Kavenegar as kv;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\CartApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('getUser', 'getUser');
     Route::post('register', 'register');
 
+});
+
+Route::controller(CartApiController::class)->prefix('cart')->group(function ()
+{
+    Route::post('add', 'add');
 });
 
 Route::get('/test-sms', function (Request $request)
