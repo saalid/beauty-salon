@@ -40,6 +40,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(CartApiController::class)->prefix('cart')->group(function ()
 {
     Route::post('add', 'add');
+    Route::post('remove', 'remove');
 });
 
 Route::get('/test-sms', function (Request $request)
