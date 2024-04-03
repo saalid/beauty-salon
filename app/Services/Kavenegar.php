@@ -18,6 +18,7 @@ class Kavenegar
             $result = Kave::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
             if($result){
                 foreach($result as $r){
+                    /*
                     echo "messageid = $r->messageid";
                     echo "message = $r->message";
                     echo "status = $r->status";
@@ -26,6 +27,7 @@ class Kavenegar
                     echo "receptor = $r->receptor";
                     echo "date = $r->date";
                     echo "cost = $r->cost";
+                    */
                 }
             }
             return $result;

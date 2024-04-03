@@ -28,7 +28,7 @@ class AuthController extends Controller
         $credentials = $request->only('phone', 'password');
         $token = Auth::attempt($credentials);
         $randomNumber = rand(11111, 99999);
-        $this->kavenegar->sendOtp($request->phone, $randomNumber);
+        //$this->kavenegar->sendOtp($request->phone, $randomNumber);
 
         if (!$token) {
             return response()->json([
@@ -94,9 +94,15 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|min:11',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
         ]);
+        if (User::where('phone', '=', $request->phone)->exists()) {
+            return response()->json([
+                'message' => 'User before exist',
+                'status' => false
+            ]);
+        }
 
         $user = User::create([
             'name' => $request->name,
