@@ -28,7 +28,11 @@ class AuthController extends Controller
         $credentials = $request->only('phone', 'password');
         $token = Auth::attempt($credentials);
         $randomNumber = rand(11111, 99999);
-        $this->kavenegar->sendOtp($request->phone, $randomNumber);
+        if(config('app.mode') === "production")
+        {
+            $this->kavenegar->sendOtp($request->phone, $randomNumber);
+        }
+
 
         if (!$token) {
             return response()->json([
