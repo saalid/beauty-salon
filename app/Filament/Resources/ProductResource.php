@@ -33,6 +33,10 @@ class ProductResource extends Resource
                     ->label('مدرس')
                     ->relationship('teacher', 'name')
                     ->required(),
+                Forms\Components\TextInput::make('spot_player_id')
+                    ->label('شناسه دوره در اسپات پلیر')
+                    ->maxLength(2048)
+                    ->required(),
                 Forms\Components\TextInput::make('title')
                     ->label('موضوع')
                     ->required()
