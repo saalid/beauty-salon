@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('price')->nullable();
             $table->string('number_of_session', '2048')->nullable();
             $table->string('type', '2048')->nullable();
+            $table->string('spot_player_id', '2048')->nullable();
             $table->longText('body');
             $table->longText('headline');
             $table->boolean('active');
