@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserBoughtLicense;
 use App\Services\SpotPlayerService;
 use App\Services\Kavenegar;
+use Illuminate\Support\Facades\Crypt;
 
 class UserBoughtLicenseService
 {
@@ -24,7 +25,7 @@ class UserBoughtLicenseService
                 'url_download' => $infoLicense['url']
             ]);
             if(config('app.mode') === "production") {
-                (new Kavenegar)->sendOtp($user->phone, $infoLicense['key'], 'license');
+                (new Kavenegar)->sendOtp($user->phone, "https://neginzare.com/login", 'welcome');
             }
 
             return true;

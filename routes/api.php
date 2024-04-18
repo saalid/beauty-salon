@@ -33,6 +33,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('loginVerify', 'loginVerify');
     Route::get('getUser', 'getUser');
+    Route::post('getLicense', 'getLicense');
     Route::post('register', 'register');
 
 });
