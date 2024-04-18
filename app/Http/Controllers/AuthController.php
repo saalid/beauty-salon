@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Kavenegar;
+use App\Services\UserBoughtLicenseService;
 
 class AuthController extends Controller
 {
@@ -115,8 +116,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $resultBoughtLicense = (new UserBoughtLicenseService)->handle($user);
+
+
         return response()->json([
             'message' => 'User created successfully',
+            'resultBoughtLicense' => $resultBoughtLicense,
             'user' => $user
         ]);
     }
