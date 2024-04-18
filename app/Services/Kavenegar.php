@@ -7,17 +7,17 @@ use \Kavenegar as Kave;
 class Kavenegar
 {
 
-    public function sendOtp($receptor, $token)
+    public function sendOtp($receptor, $token, $pattern = 'verify')
     {
         try{
             $token2 = null;
             $token3 = null;
-            $template="verify";
+            $template= $pattern;
             //Send null for tokens not defined in the template
             //Pass token10 and token20 as parameter 6th and 7th
             $result = Kave::VerifyLookup($receptor, $token, $token2, $token3, $template, $type = null);
             if($result){
-                foreach($result as $r){
+//                foreach($result as $r){
                     /*
                     echo "messageid = $r->messageid";
                     echo "message = $r->message";
@@ -28,9 +28,10 @@ class Kavenegar
                     echo "date = $r->date";
                     echo "cost = $r->cost";
                     */
-                }
+//                }
+                return $result;
             }
-            return $result;
+
         }
         catch(\Kavenegar\Exceptions\ApiException $e){
             // در صورتی که خروجی وب سرویس 200 نباشد این خطا رخ می دهد
