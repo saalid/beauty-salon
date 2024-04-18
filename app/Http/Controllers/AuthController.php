@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserBoughtLicense;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,23 @@ class AuthController extends Controller
     public function getUser()
     {
         return response()->json(auth()->user());
+    }
+
+    public function getLicense()
+    {
+        $infoLicense = (UserBoughtLicense::where('user_id', auth()->user()->id))->first();
+        if($infoLicense->count === 0){
+            $result = [
+                "status" => false,
+                "message" => "user not yet buy course"
+            ];
+        }else{
+            $result = [
+                "status" => true,
+                "license" => $infoLicense->license_key
+            ];
+        }
+        return response()->json($result);
     }
 
     public function register(Request $request)
