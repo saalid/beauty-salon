@@ -8,7 +8,7 @@ use App\Services\UserService;
 class SpotPlayerService
 {
 
-    public static function sendLicense($receiverPhone, $productId)
+    public static function getLicense($receiverPhone, $productId)
     {
         $device = spotplayer()->setDevice(
             $numberOfAllowedActiveDevices=2,
