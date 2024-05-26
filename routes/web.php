@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\FileDownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,8 @@ Route::get('/unauthorized', function () {
         'message' => 'un Authorized'
     ]);
 })->name('unauthorized');
+
+Route::get('/{filename}.txt', [FileDownloadController::class, 'download']);
 
 //Auth::routes();
 
