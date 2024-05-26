@@ -13,11 +13,11 @@ class SpotPlayerService
         $device = spotplayer()->setDevice(
             $numberOfAllowedActiveDevices=2,
             $Windows=1,
-            $MacOS=1,
-            $Ubuntu=1,
+            $MacOS=0,
+            $Ubuntu=0,
             $Android=1,
             $IOS=1,
-            $WebApp=2
+            $WebApp=0
         );
 
 // Generating a license
