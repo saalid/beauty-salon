@@ -37,7 +37,6 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('last_name')
                     ->label('نام خانوادگی')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->label('موبایل')

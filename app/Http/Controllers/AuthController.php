@@ -29,19 +29,19 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('phone', 'password');
         $token = Auth::attempt($credentials);
-        $randomNumber = rand(11111, 99999);
-        if(config('app.mode') === "production")
-        {
-            $this->kavenegar->sendOtp($request->phone, $randomNumber);
-        }
-
-
+       
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 401);
-        }
+	}
 
+	$randomNumber = rand(11111, 99999);
+        if(config('app.mode') === "production")
+        {
+            $this->kavenegar->sendOtp($request->phone, $randomNumber);
+	}
+	
         $user = Auth::user();
         User::where('id', '=', $user->id)->update([
             'verification_code_sms' => $randomNumber,

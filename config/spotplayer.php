@@ -38,12 +38,12 @@ return [
     */
     'device' => [
         "p0" => 1, // All Devices 1-99
-        "p1" => 0, // Windows 0-99
+        "p1" => 1, // Windows 0-99
         "p2" => 0, // MacOS 0-99
         "p3" => 0, // Ubuntu 0-99
-        "p4" => 0, // Android 0-99
-        "p5" => 0, // IOS 0-99
-        "p6" => 1  // WebApp 0-99
+        "p4" => 1, // Android 0-99
+        "p5" => 1, // IOS 0-99
+        "p6" => 0  // WebApp 0-99
     ],
 
     /*
