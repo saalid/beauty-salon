@@ -21,8 +21,15 @@ class CartApiController extends Controller
 
     public function add(Request $request)
     {
-        $matchThese = ['user_id'=>auth()->user()->id];
-        $cart = Cart::updateOrCreate($matchThese,['sum'=>$request->sum]);
+        $matchThese = [
+            'user_id' => auth()->user()->id
+        ];
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        $product = Product::find($request->productId)->first();
+
+        $sum = $cart->sum + $product->price;
+
+        $cart = Cart::updateOrCreate($matchThese,['sum'=>$sum]);
         if (CartItem::where([
             ['cart_id', '=', $cart->id],
             ['product_id', '=', $request->productId]
@@ -42,9 +49,15 @@ class CartApiController extends Controller
     public function remove(Request $request)
     {
         $matchThese = ['user_id'=>auth()->user()->id];
-        Cart::updateOrCreate($matchThese,['sum'=>$request->sum]);
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        $product = Product::find($request->productId)->first();
 
-        if(CartItem::where('id', $request->cartItemId)->delete() === 0)
+        $sum = $cart->sum - $product->price;
+        $cart = Cart::updateOrCreate($matchThese,['sum'=>$sum]);
+        if(CartItem::where([
+                ['cart_id', '=', $cart->id],
+                ['product_id', '=', $request->productId]
+            ])->delete() === 0)
         {
             return [
                 "message" => "Item Not Exist"
@@ -54,5 +67,22 @@ class CartApiController extends Controller
         return [
             "status" => true
         ];
+    }
+
+    public function list(Request $request)
+    {
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+
+        foreach ($cartItems as $cartItem)
+        {
+            $infoProduct [] = Product::find($cartItem->product_id);
+        }
+        $data = [
+            'count' => $cartItems->count(),
+            'sum' => $cart->sum,
+            'items' => $infoProduct
+        ];
+        return $data;
     }
 }

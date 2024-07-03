@@ -42,6 +42,7 @@ Route::controller(CartApiController::class)->prefix('cart')->group(function ()
 {
     Route::post('add', 'add');
     Route::post('remove', 'remove');
+    Route::get('list', 'list');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
