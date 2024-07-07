@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\OrderVerified;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Transaction;
 use Shetabit\Multipay\Invoice;
 use Shetabit\Payment\Facade\Payment;
-use Shetabit\Multipay\RedirectionForm;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 
@@ -61,8 +61,8 @@ class PaymentApiController extends Controller
      */
     public function verify(Request $request)
     {
+        $hashId = $request->get('Authority');
         try {
-            $hashId = $request->get('Authority');
 
             $transaction = Transaction::where('hash', $hashId)->first();
 
@@ -70,10 +70,16 @@ class PaymentApiController extends Controller
 
             if ($transaction) {
                 $transaction->update(['status' => 'paid']);
-                Order::where('id', $transaction->transaction_id)
-                    ->update([
+                $order = Order::where('id', $transaction->transaction_id)->first();
+                if($order){
+                    $order->update([
                         'status' => 'completed'
                     ]);
+
+                    $order->save();
+                }
+
+                event(new OrderVerified($order));
             }
 
             return [
@@ -82,11 +88,17 @@ class PaymentApiController extends Controller
 
             // Return success message
         } catch (InvalidPaymentException $exception) {
-            $transaction = Transaction::where('hash', $exception->getTransactionId())->first();
+            if($exception->getCode() !== 101)
+            {
+                $transaction = Transaction::where('hash', $hashId)->first();
 
-            if ($transaction) {
-                $transaction->update(['status' => 'failed']);
-                $transaction->order->update(['status' => 'failed']);
+                if ($transaction) {
+                    $transaction->update(['status' => 'failed']);
+                    Order::where('id', $transaction->transaction_id)
+                        ->update([
+                            'status' => 'failed'
+                        ]);
+                }
             }
 
             return [

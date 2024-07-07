@@ -25,7 +25,7 @@ class CartApiController extends Controller
             'user_id' => auth()->user()->id
         ];
         $cart = Cart::where('user_id', auth()->user()->id)->first();
-        $product = Product::find($request->productId)->first();
+        $product = Product::where('id', $request->productId)->first();
 
         $sum = $cart->sum + $product->price;
 

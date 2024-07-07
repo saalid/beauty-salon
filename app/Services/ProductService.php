@@ -8,6 +8,6 @@ class ProductService
 
     public function getSpotPlayerId($productId)
     {
-        return Product::find($productId)->spot_player_id;
+        return Product::where('id', $productId)->first()->spot_player_id;
     }
 }
