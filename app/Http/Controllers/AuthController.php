@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\UserBoughtLicense;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('phone', 'password');
         $token = Auth::attempt($credentials);
-       
+
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthorized',
@@ -41,7 +42,7 @@ class AuthController extends Controller
         {
             $this->kavenegar->sendOtp($request->phone, $randomNumber);
 	}
-	
+
         $user = Auth::user();
         User::where('id', '=', $user->id)->update([
             'verification_code_sms' => $randomNumber,
@@ -75,6 +76,14 @@ class AuthController extends Controller
                 'verification_code_sms' => null,
                 'status_code' => config('user.statusTitle.verified')
             ]);
+
+            $attributes = ['user_id' => $user->id];
+
+            // Values to update or set if the record doesn't exist
+            $values = ['user_id' => $user->id, 'sum' => 0];
+
+            $user = Cart::updateOrCreate($attributes, $values);
+
             return response()->json([
                 'user' => $user,
                 'authorisation' => [
@@ -134,12 +143,14 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $resultBoughtLicense = (new UserBoughtLicenseService)->handle($user);
+        Cart::create([
+            'user_id' => $user->id,
+            'sum' => 0
+        ]);
 
 
         return response()->json([
             'message' => 'User created successfully',
-            'resultBoughtLicense' => $resultBoughtLicense,
             'user' => $user
         ]);
     }
