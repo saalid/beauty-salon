@@ -6,13 +6,12 @@ use App\Filament\Resources\CategoryResource\Api\CategoryApiService;
 use App\Filament\Resources\ProductResource\Api\ProductApiService;
 use App\Filament\Resources\TeacherResource\Api\TeacherApiService;
 use App\Filament\Resources\CartResource\Api\CartApiService;
-use \Kavenegar as kv;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CartApiController;
-use Shetabit\Multipay\Invoice;
-use Shetabit\Payment\Facade\Payment;
 use App\Http\Controllers\Api\PaymentApiController;
 use App\Http\Controllers\Api\OrderApiController;
+use App\Http\Controllers\Api\UserProductsApiController;
+use App\Http\Controllers\Api\ProductsApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,33 +49,14 @@ Route::controller(CartApiController::class)->prefix('cart')->group(function ()
 });
 
 Route::post('/order/create', [OrderApiController::class, 'createOrder'])->name('order.create');
+Route::get('/user-orders/list', [OrderApiController::class, 'list'])->name('user.orders.list');
 Route::get('/purchase/{order}', [PaymentApiController::class, 'purchase'])->name('purchase');
 Route::get('/verify', [PaymentApiController::class, 'verify'])->name('verify');
+Route::get('/user-products/list', [UserProductsApiController::class, 'list'])->name('list');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/test-gateway', function () {
-
-// Do all things together in a single line.
-    return Payment::purchase(
-        (new Invoice)->amount(1000.00),
-        function($driver, $transactionId) {
-
-
-            // Store transactionId in database.
-            // We need the transactionId to verify payment in the future.
-        }
-    )->pay()->render();
-
-//// Retrieve json format of Redirection (in this case you can handle redirection to bank gateway)
-//    return Payment::purchase(
-//        (new Invoice)->amount(1000),
-//        function($driver, $transactionId) {
-//            // Store transactionId in database.
-//            // We need the transactionId to verify payment in the future.
-//        }
-//    )->pay()->toJson();
-})->name('test.gateway');
+Route::get('/product/{slug}', [ProductsApiController::class, 'getBySlug']);
 

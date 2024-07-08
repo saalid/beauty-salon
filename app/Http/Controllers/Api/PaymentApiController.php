@@ -19,8 +19,8 @@ class PaymentApiController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('auth:api');
-        $this->userId = 17;
+        $this->middleware('auth:api');
+        $this->userId = auth()->user()->id;
     }
 
     /**
@@ -36,17 +36,20 @@ class PaymentApiController extends Controller
         return Payment::purchase(
             (new Invoice)->amount($order->price),
             function($driver, $transactionId) use($order){
-                $transaction = new Transaction([
-                    'user_id' => $this->userId,
-                    'transaction_id' => $order->id,
-                    'currency' => 'IRR',
-                    'payment_method' => Order::class,
-                    'amount' => $order->price,
-                    'hash' => $transactionId,
-                    'status' => 'pending',
-                    'paid_at' => date('Y-m-d H:i:s')
-                ]);
-                $transaction->save();
+                Transaction::updateOrCreate(
+                    [
+                        'user_id' => $this->userId,
+                        'transaction_id' => $order->id,
+                    ],
+                    [
+                        'currency' => 'IRR',
+                        'payment_method' => Order::class,
+                        'amount' => $order->price,
+                        'hash' => $transactionId,
+                        'status' => 'pending',
+                        'paid_at' => date('Y-m-d H:i:s')
+                    ]
+                );
 
                 // Store transactionId in database.
                 // We need the transactionId to verify payment in the future.

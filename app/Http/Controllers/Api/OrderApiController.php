@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Transaction;
 
 class OrderApiController extends Controller
 {
@@ -21,11 +22,9 @@ class OrderApiController extends Controller
     public function createOrder()
     {
         // Create the order
-        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        $cart = Cart::where('user_id', $this->userId)->first();
 
         $cartItems = CartItem::where('cart_id', $cart->id)->get();
-
-
 
         $order = Order::create([
             'user_id' => $this->userId,
@@ -47,6 +46,28 @@ class OrderApiController extends Controller
         return redirect()->route('purchase', ['order' => $order->id]);
     }
 
+    public function list()
+    {
+        $data = [];
+        $userOrders = Order::where([
+            'user_id' => $this->userId,
+            'status' => 'completed'
 
+        ])->get();
 
+        $key = 0;
+        foreach ($userOrders as $userOrder) {
+            $orderItems = OrderItem::where('order_id', $userOrder->id)->get();
+            foreach ($orderItems as $orderItem) {
+                $transaction = Transaction::where('transaction_id', $userOrder->id)->first();
+                $data ['order-'.$userOrder->id]['price'] = $userOrder->price;
+                $data ['order-'.$userOrder->id]['codeTransaction'] = base64_encode($transaction->user_id . ':' . $userOrder->id);
+                $data ['order-'.$userOrder->id]['items'][] = $orderItem;
+                $data ['order-'.$userOrder->id]['items'][$key]['productInfo'] = Product::where('id', $orderItem->product_id)->first();
+                $key++;
+            }
+        }
+
+        return $data;
+    }
 }
