@@ -19,6 +19,6 @@ class ProductsApiController extends Controller
 
     public function getBySlug($slug)
     {
-        return Product::where('slug', $slug)->first();
+        return Product::with('teacher')->where('slug', $slug)->first();
     }
 }
