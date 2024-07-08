@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'mode' => 'production',
+    'mode' => 'test',
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
