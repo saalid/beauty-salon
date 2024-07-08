@@ -23,11 +23,6 @@ use App\Http\Controllers\Api\ProductsApiController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//UserApiService::routes();
-CategoryApiService::routes();
-ProductApiService::routes();
-TeacherApiService::routes();
-CartApiService::routes();
 
 Route::controller(AuthController::class)->group(function () {
 
@@ -59,4 +54,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/product/{slug}', [ProductsApiController::class, 'getBySlug']);
+Route::get('/products', [ProductsApiController::class, 'getAll']);
 
