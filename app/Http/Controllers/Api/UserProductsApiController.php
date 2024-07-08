@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Kavenegar;
-class UserProducts extends Controller
+class UserProductsApiController extends Controller
 {
 
     public function __construct()
