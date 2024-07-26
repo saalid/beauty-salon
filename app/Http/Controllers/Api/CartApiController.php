@@ -90,7 +90,7 @@ class CartApiController extends Controller
 
         foreach ($cartItems as $cartItem)
         {
-            $infoProduct [] = Product::find($cartItem->product_id);
+            $infoProduct [] = Product::with('teacher')->find($cartItem->product_id);
         }
         $data = [
             'count' => $cartItems->count(),
