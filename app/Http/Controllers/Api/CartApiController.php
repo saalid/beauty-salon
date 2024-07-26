@@ -48,29 +48,43 @@ class CartApiController extends Controller
 
     public function remove(Request $request)
     {
+
         $matchThese = ['user_id'=>auth()->user()->id];
         $cart = Cart::where('user_id', auth()->user()->id)->first();
-        $product = Product::find($request->productId)->first();
+        $product = Product::where('id', $request->productId)->first();
+        $cartItem = CartItem::where([
+            ['cart_id', '=', $cart->id],
+            ['product_id', '=', $request->productId]
+        ]);
 
-        $sum = $cart->sum - $product->price;
-        $cart = Cart::updateOrCreate($matchThese,['sum'=>$sum]);
-        if(CartItem::where([
-                ['cart_id', '=', $cart->id],
-                ['product_id', '=', $request->productId]
-            ])->delete() === 0)
+        if($cartItem->count() > 0)
         {
+            $sum = $cart->sum - $product->price;
+            $cart = Cart::updateOrCreate($matchThese,['sum'=>$sum]);
+            if(CartItem::where([
+                    ['cart_id', '=', $cart->id],
+                    ['product_id', '=', $request->productId]
+                ])->delete() === 0)
+            {
+                return [
+                    "message" => "Item Not Exist"
+                ];
+            }
+
             return [
-                "message" => "Item Not Exist"
+                "status" => true
+            ];
+        }else{
+            return [
+                "message" => "Cart is empty"
             ];
         }
 
-        return [
-            "status" => true
-        ];
     }
 
     public function list(Request $request)
     {
+        $infoProduct = [];
         $cart = Cart::where('user_id', auth()->user()->id)->first();
         $cartItems = CartItem::where('cart_id', $cart->id)->get();
 
