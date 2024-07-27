@@ -24,7 +24,10 @@ class StudentProductAdditionListener
 
         foreach ($orderItems as $orderItem)
         {
-            $userProducts = UserBoughtLicense::where('product_id', $orderItem->product_id)->count();
+            $userProducts = UserBoughtLicense::where([
+                ['product_id' , '=', $orderItem->product_id],
+                ['user_id', '=', $order->user_id]
+            ])->count();
 
             if($userProducts === 0)
             {
