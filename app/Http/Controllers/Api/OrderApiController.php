@@ -42,8 +42,9 @@ class OrderApiController extends Controller
             $orderItem->save();
         }
 
-        // Redirect to the purchase route with the order ID
-        return redirect()->route('purchase', ['order' => $order->id]);
+        return [
+            'orderId' => $order->id
+        ];
     }
 
     public function list()
