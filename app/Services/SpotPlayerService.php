@@ -23,12 +23,12 @@ class SpotPlayerService
 // Generating a license
         $watermarks = [
             "texts" => [
-                ["text" => $receiverPhone]
+                ["text" => $receiverPhone.'-'.rand(11111, 9999999999)]
             ]
         ];
 
         $licence = spotplayer()->licence(
-            $name=(new UserService)->getName($receiverPhone).'-'.rand(11111, 9999999999),
+            $name=(new UserService)->getName($receiverPhone),
             $courses=[(new ProductService)->getSpotPlayerId($productId)],
             $watermarks,
             $device,
