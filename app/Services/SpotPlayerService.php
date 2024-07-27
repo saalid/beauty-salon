@@ -28,7 +28,7 @@ class SpotPlayerService
         ];
 
         $licence = spotplayer()->licence(
-            $name=(new UserService)->getName($receiverPhone),
+            $name=(new UserService)->getName($receiverPhone).'-'.rand(11111, 9999999999),
             $courses=[(new ProductService)->getSpotPlayerId($productId)],
             $watermarks,
             $device,
