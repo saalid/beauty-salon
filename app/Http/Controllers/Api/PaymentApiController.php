@@ -15,12 +15,6 @@ use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 class PaymentApiController extends Controller
 {
 
-    private $userId;
-
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
 
     /**
      * @param Order $order
