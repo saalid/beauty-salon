@@ -20,7 +20,6 @@ class PaymentApiController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->userId = auth()->user()->id;
     }
 
     /**
@@ -30,6 +29,7 @@ class PaymentApiController extends Controller
      */
     public function purchase(Order $order)
     {
+
         $invoice = new Invoice;
         $invoice->amount($order->price);
 
@@ -38,7 +38,7 @@ class PaymentApiController extends Controller
             function($driver, $transactionId) use($order){
                 Transaction::updateOrCreate(
                     [
-                        'user_id' => $this->userId,
+                        'user_id' => $order->user_id,
                         'transaction_id' => $order->id,
                     ],
                     [
