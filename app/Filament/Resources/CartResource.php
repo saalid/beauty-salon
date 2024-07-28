@@ -17,7 +17,13 @@ class CartResource extends Resource
 {
     protected static ?string $model = Cart::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'سبد خرید کاربران';
+
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+
+    protected static  ?string $modelLabel = 'سبد خرید';
+
+    protected static ?string $pluralModelLabel = 'سبد خرید کاربران';
 
     public static function form(Form $form): Form
     {
@@ -36,9 +42,11 @@ class CartResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('نام کاربر')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sum')
+                    ->label('مجموع')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

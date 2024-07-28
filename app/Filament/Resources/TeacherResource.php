@@ -22,7 +22,8 @@ class TeacherResource extends Resource
     protected static  ?string $modelLabel = 'مدرس';
 
     protected static ?string $pluralModelLabel = 'مدرس دوره ها';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $navigationLabel = 'مدرس دوره ها';
 

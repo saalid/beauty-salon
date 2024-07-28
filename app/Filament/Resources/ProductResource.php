@@ -19,7 +19,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationLabel = 'محصولات';
 
-    protected static ?string $navigationIcon = 'heroicon-s-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     protected static  ?string $modelLabel = 'محصول';
 
