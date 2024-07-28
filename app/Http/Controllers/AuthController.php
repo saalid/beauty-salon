@@ -76,12 +76,12 @@ class AuthController extends Controller
                 'verification_code_sms' => null,
                 'status_code' => config('user.statusTitle.verified')
             ]);
-            
+
             // Values to update or set if the record doesn't exist
             $attributes = ['user_id' => $user->id];
             $values = ['sum' => 0];
 
-            $user = Cart::firstOrCreate($attributes, $values);;
+            $user = Cart::firstOrCreate($attributes, $values);
 
             return response()->json([
                 'user' => $user,
