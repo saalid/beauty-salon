@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\UserBoughtLicense;
+use App\Services\UserBoughtLicenseService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +28,17 @@ class CartApiController extends Controller
         ];
         $cart = Cart::where('user_id', auth()->user()->id)->first();
         $product = Product::where('id', $request->productId)->first();
+
+        $userProducts = UserBoughtLicense::where([
+            ['user_id', '=', auth()->user()->id],
+            ['product_id', '=', $request->productId]
+        ]);
+        if($userProducts->count > 0)
+        {
+            return [
+                'message' => 'شما قبلا این دوره را خریداری کرده اید'
+            ];
+        }
 
         $sum = $cart->sum + $product->price;
 
