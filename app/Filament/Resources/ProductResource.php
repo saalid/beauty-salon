@@ -56,6 +56,15 @@ class ProductResource extends Resource
                     ->label('قیمت دوره')
                     ->numeric()
                     ->prefix('تومان'),
+                Forms\Components\Select::make('discount_type')
+                    ->label('نوع تخفیف')
+                    ->options([
+                        'percent' => 'درصدی',
+                        'static' => 'ثابت',
+                    ]),
+                Forms\Components\TextInput::make('discount_value')
+                    ->label('مقدار تخفیف')
+                    ->numeric(),
                 Forms\Components\TextInput::make('number_of_session')
                     ->label('تعداد جلسات')
                     ->maxLength(2048),
