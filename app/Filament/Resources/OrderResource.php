@@ -55,7 +55,11 @@ class OrderResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('قیمت')
-                    ->money('IRT', true)
+                    ->formatStateUsing(function ($state) {
+                        // Assuming $state is the price in Rials, divide by 10 to convert to Tomans
+                        $tomanAmount = (int)($state / 1);
+                        return number_format($tomanAmount) . ' تومان';
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

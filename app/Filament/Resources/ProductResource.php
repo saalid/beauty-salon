@@ -117,7 +117,11 @@ class ProductResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('قیمت دوره')
-                    ->money()
+                    ->formatStateUsing(function ($state) {
+                        // Assuming $state is the price in Rials, divide by 10 to convert to Tomans
+                        $tomanAmount = (int)($state / 1);
+                        return number_format($tomanAmount) . ' تومان';
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('number_of_session')
                     ->label('تعداد جلسات')
