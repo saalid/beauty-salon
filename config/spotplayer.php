@@ -2,8 +2,8 @@
 /** This file contains the config for using spotplayer api */
 
 return [
-    
-    
+
+
     /*
     |--------------------------------------------------------------------------
     | SpotPlayer Api Key
@@ -13,7 +13,7 @@ return [
     |
     */
     'api' => env('SPOTPLAYER_API','your api key'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Domain
@@ -29,7 +29,7 @@ return [
     | Device
     |--------------------------------------------------------------------------
     |
-    | This array holds the setting for the allowed devices to use the generated licence. 
+    | This array holds the setting for the allowed devices to use the generated licence.
     | p0 is the number of devices which you can register for this licence.
     | p1...p6 is the number of devices which can register for the licence.
     | For example, you can set p0 to 2 and all else to 2. Then you can register licence for only
@@ -39,7 +39,7 @@ return [
     'device' => [
         "p0" => 1, // All Devices 1-99
         "p1" => 1, // Windows 0-99
-        "p2" => 0, // MacOS 0-99
+        "p2" => 1, // MacOS 0-99
         "p3" => 0, // Ubuntu 0-99
         "p4" => 1, // Android 0-99
         "p5" => 1, // IOS 0-99
@@ -51,7 +51,7 @@ return [
     | Mode
     |--------------------------------------------------------------------------
     |
-    | This value is your developement mode. It will be use in generation of a licence. 
+    | This value is your developement mode. It will be use in generation of a licence.
     | It can be either **test** or **production** which you must specify according to your usecase.
     |
     */
