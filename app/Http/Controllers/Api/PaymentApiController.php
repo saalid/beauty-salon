@@ -29,7 +29,7 @@ class PaymentApiController extends Controller
 
         return Payment::purchase(
             (new Invoice)->amount($order->price),
-            function($driver, $transactionId) use($order){
+            function ($driver, $transactionId) use ($order) {
                 Transaction::updateOrCreate(
                     [
                         'user_id' => $order->user_id,
@@ -53,7 +53,6 @@ class PaymentApiController extends Controller
 
     /**
      * @param Request $request
-     * @return array|true[]
      * @throws \Shetabit\Multipay\Exceptions\InvoiceNotFoundException
      */
     public function verify(Request $request)
@@ -68,7 +67,7 @@ class PaymentApiController extends Controller
             if ($transaction) {
                 $transaction->update(['status' => 'paid']);
                 $order = Order::where('id', $transaction->transaction_id)->first();
-                if($order){
+                if ($order) {
                     $order->update([
                         'status' => 'completed'
                     ]);
@@ -79,14 +78,11 @@ class PaymentApiController extends Controller
                 event(new OrderVerified($order));
             }
 
-            return [
-                'status' => true
-            ];
+            return redirect('http://neginzare.com/purchase/success');
 
             // Return success message
         } catch (InvalidPaymentException $exception) {
-            if($exception->getCode() !== 101)
-            {
+            if ($exception->getCode() !== 101) {
                 $transaction = Transaction::where('hash', $hashId)->first();
 
                 if ($transaction) {
@@ -98,10 +94,7 @@ class PaymentApiController extends Controller
                 }
             }
 
-            return [
-                'status' => false,
-                'message' => $exception->getMessage()
-            ];
+            return redirect('http://neginzare.com/purchase/failed');
         }
     }
 

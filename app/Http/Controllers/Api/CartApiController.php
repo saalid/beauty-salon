@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\UserBoughtLicense;
+use App\Services\UserBoughtLicenseService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,19 @@ class CartApiController extends Controller
         $cart = Cart::where('user_id', auth()->user()->id)->first();
         $product = Product::where('id', $request->productId)->first();
 
-        $sum = $cart->sum + $product->price;
+        $userProducts = UserBoughtLicense::where([
+            ['user_id', '=', auth()->user()->id],
+            ['product_id', '=', $request->productId]
+        ]);
+        if($userProducts->count() > 0)
+        {
+            return [
+                'message' => 'شما قبلا این دوره را خریداری کرده اید'
+            ];
+        }
+
+
+        $sum = $cart->sum + $this->calculatePrice($product);
 
         $cart = Cart::updateOrCreate($matchThese,['sum'=>$sum]);
         if (CartItem::where([
@@ -59,7 +73,7 @@ class CartApiController extends Controller
 
         if($cartItem->count() > 0)
         {
-            $sum = $cart->sum - $product->price;
+            $sum = $cart->sum - $this->calculatePrice($product);
             $cart = Cart::updateOrCreate($matchThese,['sum'=>$sum]);
             if(CartItem::where([
                     ['cart_id', '=', $cart->id],
@@ -98,5 +112,21 @@ class CartApiController extends Controller
             'items' => $infoProduct
         ];
         return $data;
+    }
+
+    private function calculatePrice(Product $product)
+    {
+        $price = $product->price;
+
+        if($product->discount_type === 'percent')
+        {
+            $discount = ($price * $product->discount_value) / 100;
+            $price = $price - $discount;
+        }elseif ($product->discount_type === 'static')
+        {
+            $price = $price - $product->discount_value;
+        }
+
+        return $price;
     }
 }
