@@ -17,7 +17,13 @@ class UserBoughtLicenseResource extends Resource
 {
     protected static ?string $model = UserBoughtLicense::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'دوره های خریداری شده توسط کاربران';
+
+    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+
+    protected static  ?string $modelLabel = 'دوره های خریداری شده';
+
+    protected static ?string $pluralModelLabel = 'دوره های خریداری شده';
 
     public static function form(Form $form): Form
     {
@@ -52,8 +58,9 @@ class UserBoughtLicenseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('کاربر')
-                    ->numeric(),
+                    ->label('کاربر'),
+                Tables\Columns\TextColumn::make('product.title')
+                ->label('نام محصول'),
             ])
             ->filters([
                 //
