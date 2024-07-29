@@ -13,7 +13,7 @@ class SpotPlayerService
         $device = spotplayer()->setDevice(
             $numberOfAllowedActiveDevices=2,
             $Windows=1,
-            $MacOS=0,
+            $MacOS=1,
             $Ubuntu=0,
             $Android=1,
             $IOS=1,
