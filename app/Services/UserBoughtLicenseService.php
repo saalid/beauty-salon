@@ -25,7 +25,7 @@ class UserBoughtLicenseService
                 'url_download' => $infoLicense['url']
             ]);
             if(config('app.mode') === "production") {
-                (new Kavenegar)->sendOtp($user->phone, "https://neginzare.com/login", 'welcome');
+                (new Kavenegar)->sendOtp($user->phone, "http://neginzare.com/login", 'welcome');
             }
 
             return true;

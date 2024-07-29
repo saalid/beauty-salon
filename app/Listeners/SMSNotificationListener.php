@@ -22,7 +22,7 @@ class SMSNotificationListener
         $user  = User::where('id', $order->user_id)->first();
 
         if(config('app.mode') === "production") {
-            (new Kavenegar)->sendOtp($user->phone, "https://neginzare.com/login", 'welcome');
+            (new Kavenegar)->sendOtp($user->phone, "http://neginzare.com/login", 'welcome');
         }
     }
 }
