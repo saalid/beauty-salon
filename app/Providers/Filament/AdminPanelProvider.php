@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Dashboard;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -25,6 +26,9 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->pages([
+                Dashboard::class
+            ])
             ->id('admin')
             ->path('admin')
             ->font('Vazirmatn', provider: GoogleFontProvider::class)

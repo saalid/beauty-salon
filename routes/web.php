@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\FileDownloadController;
+use App\Http\Controllers\TransactionExportController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,10 @@ Route::get('/unauthorized', function () {
 })->name('unauthorized');
 
 Route::get('/{filename}.txt', [FileDownloadController::class, 'download']);
+
+
+Route::get('/export-transactions', [TransactionExportController::class, 'export'])->name('transactions.export');
+
 
 //Auth::routes();
 
