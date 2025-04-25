@@ -14,10 +14,10 @@ class SpotPlayerService
             $numberOfAllowedActiveDevices=2,
             $Windows=1,
             $MacOS=1,
-            $Ubuntu=0,
+            $Ubuntu=1,
             $Android=1,
             $IOS=1,
-            $WebApp=0
+            $WebApp=1
         );
 
 // Generating a license
