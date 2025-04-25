@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'mode' => 'test',
+    'mode' => env('APP_ENV', 'test'),
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
