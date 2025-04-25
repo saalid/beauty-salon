@@ -6,7 +6,6 @@ use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\TransactionExportController;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +28,7 @@ Route::get('/{filename}.txt', [FileDownloadController::class, 'download']);
 
 
 Route::get('/export-transactions', [TransactionExportController::class, 'export'])->name('transactions.export');
+Route::get('/refresh-carts', [\App\Http\Controllers\CartCleanerController::class, 'execute'])->name('refresh.carts');
 
 
 //Auth::routes();
