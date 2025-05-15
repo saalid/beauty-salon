@@ -7,12 +7,13 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Morilog\Jalali\Jalalian;
+
 
 class TransactionsExport implements FromCollection, WithHeadings, WithEvents
 {
     public function collection()
     {
-        // Join with the Student table, filter by 'paid' transactions, and select necessary fields
         return Transaction::select(
             'users.name',
             'users.email',
@@ -21,15 +22,26 @@ class TransactionsExport implements FromCollection, WithHeadings, WithEvents
             'transactions.status',
             'transactions.created_at'
         )
-            ->join('users', 'users.id', '=', 'transactions.user_id') // Adjust based on your relationship
-            ->where('transactions.status', 'paid') // Filter only paid transactions
-            ->get();
+            ->join('users', 'users.id', '=', 'transactions.user_id')
+            ->where('transactions.status', 'paid')
+            ->get()
+            ->map(function ($transaction) {
+                return [
+                    'name'       => $transaction->name,
+                    'email'      => $transaction->email,
+                    'phone'      => $transaction->phone,
+                    'amount'     => $transaction->amount,
+                    'status'     => $transaction->status,
+                    'created_at' => Jalalian::fromDateTime($transaction->created_at)->format('Y/m/d H:i'),
+                ];
+            });
     }
 
     public function headings(): array
     {
-        return ['Name Family', 'Email', 'Phone', 'Amount', 'Status', 'Created At'];
+        return ['Name Family', 'Email', 'Phone', 'Amount', 'Status', 'Created At (Shamsi)'];
     }
+
 
     // Add the total sum to the last row of the sheet
     public function registerEvents(): array
