@@ -10,6 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Morilog\Jalali\Jalalian;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -59,11 +62,30 @@ class UserBoughtLicenseResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('کاربر'),
+
                 Tables\Columns\TextColumn::make('product.title')
-                ->label('نام محصول'),
+                    ->label('نام محصول'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('تاریخ ایجاد')
+                    ->formatStateUsing(fn ($state) => Jalalian::fromDateTime($state)->format('Y/m/d H:i')),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->label('تاریخ ایجاد')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->jalali()
+                            ->label('از تاریخ'),
+                        DatePicker::make('created_until')
+                            ->jalali()
+                            ->label('تا تاریخ'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['created_from'], fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
+                            ->when($data['created_until'], fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -75,6 +97,7 @@ class UserBoughtLicenseResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getPages(): array
     {

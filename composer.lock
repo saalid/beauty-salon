@@ -4,8 +4,153 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63c176e8c661a4870baf6f26ded6cb3f",
+    "content-hash": "4831ca52c4374f361e0973897b017fcd",
     "packages": [
+        {
+            "name": "ariaieboy/filament-jalali",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ariaieboy/filament-jalali.git",
+                "reference": "74df6c43837960ce823fe4e05599c8be0b3fe7cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ariaieboy/filament-jalali/zipball/74df6c43837960ce823fe4e05599c8be0b3fe7cb",
+                "reference": "74df6c43837960ce823fe4e05599c8be0b3fe7cb",
+                "shasum": ""
+            },
+            "require": {
+                "ariaieboy/jalali": "^1.0.1",
+                "filament/filament": "^3",
+                "illuminate/contracts": "^10|^11|^12",
+                "php": "~8.2.0|~8.3|~8.4",
+                "spatie/laravel-package-tools": "^1.13.5"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.11",
+                "larastan/larastan": "^2.2|^3",
+                "nunomaduro/collision": "^8",
+                "orchestra/testbench": "^9|^10",
+                "pestphp/pest": "^2|^3",
+                "pestphp/pest-plugin-laravel": "^2|^3",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0|^2",
+                "phpstan/phpstan-phpunit": "^1.1.1|^2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ariaieboy\\FilamentJalali\\FilamentJalaliServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ariaieboy\\FilamentJalali\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ariaieboy",
+                    "email": "ariaieboy.ir@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add Jalali/Shamsi support for FilamentPHP",
+            "homepage": "https://github.com/ariaieboy/filament-jalali",
+            "keywords": [
+                "ariaieboy",
+                "filament-jalali-datetimepicker",
+                "filament-jalali-support",
+                "filament-shamsi-calendar",
+                "filament-shamsi-support",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/ariaieboy/filament-jalali/issues",
+                "source": "https://github.com/ariaieboy/filament-jalali/tree/1.1.1"
+            },
+            "time": "2025-03-31T18:25:56+00:00"
+        },
+        {
+            "name": "ariaieboy/jalali",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ariaieboy/jalali.git",
+                "reference": "8d999f1f543ca712b75ca4e290b75146c8bb0fc4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ariaieboy/jalali/zipball/8d999f1f543ca712b75ca4e290b75146c8bb0fc4",
+                "reference": "8d999f1f543ca712b75ca4e290b75146c8bb0fc4",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^2||^3",
+                "php": "~8.2|~8.3|~8.4"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "pestphp/pest": "^3.2",
+                "phpstan/phpstan": "^2",
+                "phpstan/phpstan-deprecation-rules": "^2",
+                "phpstan/phpstan-strict-rules": "^2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Ariaieboy\\Jalali\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milad Rey",
+                    "email": "miladr@gmail.com"
+                },
+                {
+                    "name": "Morteza Parvini",
+                    "email": "m.parvini@outlook.com"
+                },
+                {
+                    "name": "AriaieBOY",
+                    "email": "ariaieboy.ir@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This Package helps developers to easily work with Jalali (Shamsi or Iranian) dates in php appliations, based on Jalali (Shamsi) DateTime class.",
+            "homepage": "https://github.com/ariaieboy/jalali",
+            "keywords": [
+                "Jalali",
+                "ariaieboy",
+                "persian-calendar",
+                "shamsi"
+            ],
+            "support": {
+                "issues": "https://github.com/ariaieboy/jalali/issues",
+                "source": "https://github.com/ariaieboy/jalali/tree/1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ariaieboy",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-21T12:23:08+00:00"
+        },
         {
             "name": "beberlei/assert",
             "version": "v3.3.3",
