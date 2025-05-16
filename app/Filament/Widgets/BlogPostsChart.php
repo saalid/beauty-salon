@@ -11,6 +11,8 @@ use Morilog\Jalali\Jalalian;
 class BlogPostsChart extends ChartWidget
 {
     protected static ?string $heading = 'آمار فروش روزانه دوره ها';// number of columns the widget spans (1-3)
+    protected int|string|array $columnSpan = 'full';
+    protected static ?int $sort = 20;
 
     protected function getFilters(): ?array
     {
