@@ -5,6 +5,8 @@ namespace App\Filament\Widgets;
 use App\Models\UserBoughtLicense;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Morilog\Jalali\Jalalian;
+
 
 class BlogPostsChart extends ChartWidget
 {
@@ -58,7 +60,8 @@ class BlogPostsChart extends ChartWidget
         }
 
         // 7. Format dates for label display (optionally convert to Jalali if needed)
-        $labels = array_map(fn($d) => Carbon::parse($d)->format('Y/m/d'), $dates);
+//        $labels = array_map(fn($d) => Carbon::parse($d)->format('Y/m/d'), $dates);
+        $labels = array_map(fn($d) => Jalalian::fromCarbon(Carbon::parse($d))->format('Y/m/d'), $dates);
 
         return [
             'datasets' => $datasets,
