@@ -18,11 +18,13 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.3",
+        "leandrocfe/filament-apex-charts": "^3.2",
         "maatwebsite/excel": "^3.1",
         "morilog/jalali": "^3.4",
         "php-open-source-saver/jwt-auth": "^2.1",
         "phpoffice/phpspreadsheet": "^1.29.9",
         "rupadana/filament-api-service": "^1.0",
+        "saade/filament-fullcalendar": "^3.2",
         "sajed-zarinpour/spotplayer": "^1.0",
         "shetabit/payment": "^5.8"
     },
