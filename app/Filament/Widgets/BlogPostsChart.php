@@ -12,12 +12,23 @@ class BlogPostsChart extends ChartWidget
 {
     protected static ?string $heading = 'آمار فروش روزانه دوره ها';// number of columns the widget spans (1-3)
 
-
+    protected function getFilters(): ?array
+    {
+        return [
+            '7' => '7 روز اخیر',
+            '14' => '14 روز اخیر',
+            '21' => '21 روز اخیر',
+            '30' => '30 روز اخیر',
+            '40' => '40 روز اخیر',
+        ];
+    }
     protected function getData(): array
     {
+        $days = (int) ($this->filter ?? 7);
+
         // 1. Define the date range (last 7 days as example)
         $endDate = Carbon::today();
-        $startDate = $endDate->copy()->subDays(29);
+        $startDate = $endDate->copy()->subDays($days -1);
 
         // 2. Get all relevant sales in the date range, with product info
         $sales = UserBoughtLicense::query()
