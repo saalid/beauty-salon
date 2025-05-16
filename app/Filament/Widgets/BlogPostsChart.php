@@ -17,7 +17,7 @@ class BlogPostsChart extends ChartWidget
     {
         // 1. Define the date range (last 7 days as example)
         $endDate = Carbon::today();
-        $startDate = $endDate->copy()->subDays(7);
+        $startDate = $endDate->copy()->subDays(29);
 
         // 2. Get all relevant sales in the date range, with product info
         $sales = UserBoughtLicense::query()
