@@ -9,14 +9,35 @@ use Filament\Tables;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Morilog\Jalali\Jalalian;
+use Filament\Forms;
+
 
 class SalesSummaryTableWidget extends TableWidget
 {
     protected static ?string $heading = 'گزارش فروش روزانه دوره‌ها';
     protected int|string|array $columnSpan = 'full';
     protected static ?int $sort = 20;
+    public ?string $daysFilter = '7';
+
 
     private static array $fakeRecords = [];
+
+    protected function getFormSchema(): array
+    {
+        return [
+            Forms\Components\Select::make('daysFilter')
+                ->label('بازه زمانی')
+                ->options([
+                    '7' => '7 روز اخیر',
+                    '14' => '14 روز اخیر',
+                    '30' => '30 روز اخیر',
+                    '60' => '60 روز اخیر',
+                ])
+                ->default('7')
+                ->reactive()
+                ->afterStateUpdated(fn () => $this->resetTableRecords()), // Refresh table
+        ];
+    }
 
     protected function getTableQuery(): Builder
     {
@@ -34,7 +55,7 @@ class SalesSummaryTableWidget extends TableWidget
 
     protected function generateFakeSalesData(): array
     {
-        $days = 60;
+        $days = (int) ($this->daysFilter ?? 7);
         $endDate = Carbon::today();
         $startDate = $endDate->copy()->subDays($days - 1);
 
@@ -68,7 +89,7 @@ class SalesSummaryTableWidget extends TableWidget
         return [
             Tables\Columns\TextColumn::make('date')
                 ->label('تاریخ')
-                ->formatStateUsing(fn ($state) => Jalalian::fromFormat('Y-m-d', $state)->format('Y/m/d')),
+                ->formatStateUsing(fn ($state) => Jalalian::fromCarbon(Carbon::parse($state))->format('Y/m/d')),
 
             Tables\Columns\TextColumn::make('course_title')
                 ->label('نام دوره'),
