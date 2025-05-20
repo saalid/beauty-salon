@@ -16,8 +16,8 @@ class SalesSummaryTableWidget extends TableWidget
 {
     protected static ?string $heading = 'گزارش فروش روزانه دوره‌ها';
     protected int|string|array $columnSpan = 'full';
-    protected static ?int $sort = 20;
-    public ?string $daysFilter = '7';
+    protected static ?int $sort = 10;
+    public ?string $daysFilter = '60';
 
 
     private static array $fakeRecords = [];
@@ -55,7 +55,7 @@ class SalesSummaryTableWidget extends TableWidget
 
     protected function generateFakeSalesData(): array
     {
-        $days = (int) ($this->daysFilter ?? 7);
+        $days = (int) ($this->daysFilter ?? 30);
         $endDate = Carbon::today();
         $startDate = $endDate->copy()->subDays($days - 1);
 
