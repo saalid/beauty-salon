@@ -27,6 +27,11 @@ class SalesSummaryTableWidget extends TableWidget
         return SalesSummaryRow::query()->whereRaw('0 = 1');
     }
 
+    public function getTableRecordKey($record): string
+    {
+        return md5($record->date . '-' . $record->course_title);
+    }
+
     protected function generateFakeSalesData(): array
     {
         $days = 7;
