@@ -34,7 +34,7 @@ class SalesSummaryTableWidget extends TableWidget
 
     protected function generateFakeSalesData(): array
     {
-        $days = 7;
+        $days = 60;
         $endDate = Carbon::today();
         $startDate = $endDate->copy()->subDays($days - 1);
 
